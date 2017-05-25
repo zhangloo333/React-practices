@@ -1,9 +1,10 @@
 {
-    "name": "react parc",
+    "name": "react-template",
     "version": "1.0.0",
     "description": "build webpack",
     "main": "index.js",
     "scripts": {
+        "start": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
@@ -19,7 +20,15 @@
     "dependencies": {
         "express": "^4.13.4",
         "react": "^0.14.7",
-        "react-dom": "^0.14.7"
+        "react-dom": "^0.14.7",
+        "webpack-dev-server": "^1.14.0",
+        "chai ": " ^ 3.5 .0 ",
+        "chai-jquery": "^2.0.0",
+        "jquery": "^2.2.1",
+        "jsdom": "^8.1.0",
+        "mocha": "^2.4.5",
+        "react-addons-test-utils": "^0.14.7",
+
     },
     "devDependencies": {
         "babel-core": "^6.5.1",
