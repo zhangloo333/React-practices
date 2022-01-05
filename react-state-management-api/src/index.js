@@ -20,16 +20,30 @@ const useFetch = (url) => {
     setResponse([]);
     setError(null);
 
-    fetch(url)
-      .then((response) => response.json())
-      .then((response) => {
-        setResponse(response);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setLoading(false);
+    const fetchUrl = async () => {
+      try {
+        const response = await fetch(url);
+        const data = await response.json(); // must add await otherwise, it won't show up data
+        setResponse(data);
+      } catch (error) {
         setError(error);
-      });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUrl();
+
+    // fetch(url)
+    //   .then((response) => response.json())
+    //   .then((response) => {
+    //     setResponse(response);
+    //     setLoading(false);
+    //   })
+    //   .catch((error) => {
+    //     setLoading(false);
+    //     setError(error);
+    //   });
   }, []);
   return [response, loading, error];
 };
