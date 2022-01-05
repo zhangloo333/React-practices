@@ -12,12 +12,24 @@ import "./styles.scss";
 
 const Application = () => {
   const [characters, setCharacters] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   React.useEffect(() => {
+    setLoading(true);
+    setCharacters([]);
+    setError(null);
+
     fetch(endpoint + "/characters")
       .then((response) => response.json())
-      .then((response) => setCharacters(response.characters))
-      .catch(console.error);
+      .then((response) => {
+        setCharacters(response.characters);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+        setError(error);
+      });
   }, []);
 
   return (
@@ -27,7 +39,12 @@ const Application = () => {
       </header>
       <main>
         <section className="sidebar">
-          <CharacterList characters={characters} />
+          {loading ? (
+            <p>"loading...." </p>
+          ) : (
+            <CharacterList characters={characters} />
+          )}
+          {error && <p className="error">{error.message}</p>}
         </section>
       </main>
     </div>
