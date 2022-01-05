@@ -10,20 +10,20 @@ import endpoint from "./endpoint";
 
 import "./styles.scss";
 
-const Application = () => {
-  const [characters, setCharacters] = useState([]);
+const useFetch = (url) => {
+  const [response, setResponse] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   React.useEffect(() => {
     setLoading(true);
-    setCharacters([]);
+    setResponse([]);
     setError(null);
 
-    fetch(endpoint + "/characters")
+    fetch(url)
       .then((response) => response.json())
       .then((response) => {
-        setCharacters(response.characters);
+        setResponse(response);
         setLoading(false);
       })
       .catch((error) => {
@@ -31,6 +31,12 @@ const Application = () => {
         setError(error);
       });
   }, []);
+  return [response, loading, error];
+};
+
+const Application = () => {
+  const [response, loading, error] = useFetch(endpoint + "/characters");
+  const characters = (response && response.characters) || [];
 
   return (
     <div className="Application">
