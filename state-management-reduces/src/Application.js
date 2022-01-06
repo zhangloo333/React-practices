@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useCallback } from "react";
 
 import id from "uuid/v4";
 
@@ -9,6 +9,11 @@ import initialState from "./initialState";
 
 const GRUDGE_ADD = "GRUDGE_ADD";
 const GRUDGE_FORGIVE = "GRUDGE_FORGIVE";
+
+//If the same property are same with last time, you don't need to re-render
+//React.memo(function component)
+//useCallback
+//useMemo
 
 const reducer = (state, action) => {
   if (action.type === GRUDGE_ADD) {
@@ -27,39 +32,32 @@ const Application = () => {
   // const [grudges, setGrudges] = useState(initialState);
   const [grudges, dispatch] = useReducer(reducer, initialState);
 
-  const addGrudge = ({ person, reason }) => {
-    dispatch({
-      type: GRUDGE_ADD,
-      payload: {
-        person,
-        reason,
-        forgiven: false,
-        id: id(),
-      },
-    });
-  };
+  const addGrudge = useCallback(
+    ({ person, reason }) => {
+      dispatch({
+        type: GRUDGE_ADD,
+        payload: {
+          person,
+          reason,
+          forgiven: false,
+          id: id(),
+        },
+      });
+    },
+    [dispatch]
+  );
 
-  // const addGrudge = (grudge) => {
-  //   grudge.id = id();
-  //   grudge.forgiven = false;
-  //   setGrudges([grudge, ...grudges]);
-  // };
-
-  const toggleForgiveness = (id) => {
-    dispatch({
-      type: GRUDGE_FORGIVE,
-      payload: {
-        id,
-      },
-    });
-
-    // setGrudges(
-    //   grudges.map((grudge) => {
-    //     if (grudge.id !== id) return grudge;
-    //     return { ...grudge, forgiven: !grudge.forgiven };
-    //   })
-    // );
-  };
+  const toggleForgiveness = useCallback(
+    (id) => {
+      dispatch({
+        type: GRUDGE_FORGIVE,
+        payload: {
+          id,
+        },
+      });
+    },
+    [dispatch]
+  );
 
   return (
     <div className="Application">

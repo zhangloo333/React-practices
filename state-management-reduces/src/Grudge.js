@@ -1,7 +1,8 @@
-import React from 'react';
+import React from "react";
 
-const Grudge = ({ grudge, onForgive }) => {
+const Grudge = React.memo(({ grudge, onForgive }) => {
   const forgive = () => onForgive(grudge.id);
+  console.log(grudge);
 
   return (
     <article className="Grudge">
@@ -9,12 +10,12 @@ const Grudge = ({ grudge, onForgive }) => {
       <p>{grudge.reason}</p>
       <div className="Grudge-controls">
         <label className="Grudge-forgiven">
-          <input type="checkbox" checked={grudge.forgiven} onChange={forgive} />{' '}
+          <input type="checkbox" checked={grudge.forgiven} onChange={forgive} />{" "}
           Forgiven
         </label>
       </div>
     </article>
   );
-};
+});
 
 export default Grudge;
